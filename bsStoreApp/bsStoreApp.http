@@ -1,0 +1,6 @@
+@bsStoreApp_HostAddress = http://localhost:5108
+
+GET {{bsStoreApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
