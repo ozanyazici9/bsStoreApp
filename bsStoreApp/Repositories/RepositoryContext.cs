@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using bsStoreApp.Models;
 using bsStoreApp.Repositories.Config;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace bsStoreApp.Repositories;
