@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using bsStoreApp.Repositories.Config;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.EFCore.Config;
 
-namespace bsStoreApp.Repositories;
+namespace Repositories.EFCore;
 
 public class RepositoryContext : DbContext
 {
-    public RepositoryContext(DbContextOptions options)
+     public RepositoryContext(DbContextOptions options)
         : base(options) { }
 
     public DbSet<Book> Books { get; set; }

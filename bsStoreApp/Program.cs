@@ -1,5 +1,6 @@
-using bsStoreApp.Repositories;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
+using Repositories.EFCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
