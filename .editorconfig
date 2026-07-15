@@ -1,4 +1,0 @@
-[*.cs]
-
-# IDE0022: Metot için blok gövdesi kullan
-csharp_style_expression_bodied_methods = false
