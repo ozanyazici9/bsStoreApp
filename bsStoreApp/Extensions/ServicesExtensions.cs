@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Contracts;
 using Repositories.EFCore;
 
 namespace bsStoreApp.Extensions;
@@ -18,4 +19,7 @@ public static class ServicesExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
         );
     }
+
+    public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
 }

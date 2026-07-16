@@ -7,6 +7,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Contracts;
 using Repositories.EFCore;
 
 namespace bsStoreApp.Controllers;
@@ -15,11 +16,11 @@ namespace bsStoreApp.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
-    private readonly RepositoryContext _context;
+    private readonly IRepositoryManager _manager;
 
-    public BooksController(RepositoryContext context)
+    public BooksController(IRepositoryManager manager)
     {
-        _context = context;
+        _manager = manager;
     }
 
     [HttpGet]
@@ -27,7 +28,7 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var books = await _context.Books.ToListAsync();
+            var books = _manager.Book.GetAllBooks(trackChanges: false);
             return Ok(books);
         }
         catch (Exception ex)
@@ -41,7 +42,7 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = _manager.Book.GetOneBookById(id, trackChanges: false);
             return Ok(book);
         }
         catch (Exception ex)
@@ -58,8 +59,8 @@ public class BooksController : ControllerBase
             if (book == null)
                 return BadRequest();
 
-            await _context.Books.AddAsync(book);
-            await _context.SaveChangesAsync();
+            _manager.Book.CreateOneBook(book);
+            _manager.Save();
 
             return StatusCode(201, book);
         }
@@ -83,15 +84,12 @@ public class BooksController : ControllerBase
             if (id != book.Id)
                 return BadRequest();
 
-            var entity = await _context.Books.FindAsync(id);
-
-            if (entity == null)
-                return NotFound();
+            var entity = _manager.Book.GetOneBookById(id, trackChanges: true);
 
             entity.Title = book.Title;
             entity.Price = book.Price;
 
-            await _context.SaveChangesAsync();
+            _manager.Save();
             return Ok(entity);
         }
         catch (Exception ex)
@@ -105,15 +103,15 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = _manager.Book.GetOneBookById(id, trackChanges: false);
 
             if (book == null)
                 return NotFound(
                     new { statusCode = 404, message = $"Book with id:{id} could not found." }
                 );
 
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
+            _manager.Book.DeleteOneBook(book);
+            _manager.Save();
             return NoContent();
         }
         catch (Exception ex)
@@ -130,12 +128,12 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var entity = await _context.Books.FindAsync(id);
+            var entity = _manager.Book.GetOneBookById(id, trackChanges: true);
             if (entity == null)
                 return NotFound();
 
             bookPatch.ApplyTo(entity);
-            await _context.SaveChangesAsync();
+            _manager.Book.UpdateOneBook(entity);
             return NoContent();
         }
         catch (Exception ex)
