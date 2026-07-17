@@ -2,4 +2,5 @@
   <Project Path="bsStoreApp/bsStoreApp.csproj" />
   <Project Path="Entities/Entities.csproj" />
   <Project Path="Repositories/Repositories.csproj" />
+  <Project Path="Services/Services.csproj" />
 </Solution>
