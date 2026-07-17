@@ -38,12 +38,12 @@ public class BookManager : IBookServices
         _manager.Save();
     }
 
-    public IEnumerable<Book> GetAllBooksAsync(bool trackChanges)
+    public IEnumerable<Book> GetAllBooks(bool trackChanges)
     {
         return _manager.Book.GetAllBooks(trackChanges);
     }
 
-    public Book GetOneBookByIdAsync(int id, bool trackChanges)
+    public Book GetOneBookById(int id, bool trackChanges)
     {
         return _manager.Book.GetOneBookById(id, trackChanges);
     }
