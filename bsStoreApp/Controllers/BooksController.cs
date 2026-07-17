@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Contracts;
 using Repositories.EFCore;
+using Services.Contracts;
 
 namespace bsStoreApp.Controllers;
 
@@ -16,9 +17,9 @@ namespace bsStoreApp.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
-    private readonly IRepositoryManager _manager;
+    private readonly IServiceManager _manager;
 
-    public BooksController(IRepositoryManager manager)
+    public BooksController(IServiceManager manager)
     {
         _manager = manager;
     }
@@ -28,7 +29,7 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var books = _manager.Book.GetAllBooks(trackChanges: false);
+            var books = _manager.BookService.GetAllBooks(trackChanges: false);
             return Ok(books);
         }
         catch (Exception ex)
@@ -42,7 +43,7 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var book = _manager.Book.GetOneBookById(id, trackChanges: false);
+            var book = _manager.BookService.GetOneBookById(id, trackChanges: false);
             return Ok(book);
         }
         catch (Exception ex)
@@ -59,8 +60,7 @@ public class BooksController : ControllerBase
             if (book == null)
                 return BadRequest();
 
-            _manager.Book.CreateOneBook(book);
-            _manager.Save();
+            _manager.BookService.CreateOneBook(book);
 
             return StatusCode(201, book);
         }
@@ -78,19 +78,11 @@ public class BooksController : ControllerBase
     {
         try
         {
-            if (book == null)
-                return BadRequest();
-
             if (id != book.Id)
                 return BadRequest();
 
-            var entity = _manager.Book.GetOneBookById(id, trackChanges: true);
-
-            entity.Title = book.Title;
-            entity.Price = book.Price;
-
-            _manager.Save();
-            return Ok(entity);
+            _manager.BookService.UpdateOneBook(id, book, trackChanges: true);
+            return NoContent();
         }
         catch (Exception ex)
         {
@@ -103,15 +95,7 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var book = _manager.Book.GetOneBookById(id, trackChanges: false);
-
-            if (book == null)
-                return NotFound(
-                    new { statusCode = 404, message = $"Book with id:{id} could not found." }
-                );
-
-            _manager.Book.DeleteOneBook(book);
-            _manager.Save();
+            _manager.BookService.DeleteOneBook(id, trackChanges: true);
             return NoContent();
         }
         catch (Exception ex)
@@ -128,12 +112,13 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var entity = _manager.Book.GetOneBookById(id, trackChanges: true);
+            var entity = _manager.BookService.GetOneBookById(id, trackChanges: true);
+
             if (entity == null)
                 return NotFound();
 
             bookPatch.ApplyTo(entity);
-            _manager.Book.UpdateOneBook(entity);
+            _manager.BookService.UpdateOneBook(id, entity, trackChanges: true);
             return NoContent();
         }
         catch (Exception ex)
