@@ -1,9 +1,12 @@
 using bsStoreApp.Extensions;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using Repositories.EFCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 // Add services to the container.
 
@@ -18,6 +21,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+builder.Services.ConfigureLoggerService();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
