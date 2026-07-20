@@ -11,9 +11,9 @@ public class ServiceManager : IServiceManager
 {
     private readonly Lazy<IBookServices> _bookService;
 
-    public ServiceManager(IRepositoryManager repositoryManager)
+    public ServiceManager(IRepositoryManager repositoryManager, ILoggerService logger)
     {
-        _bookService = new Lazy<IBookServices>(() => new BookManager(repositoryManager));
+        _bookService = new Lazy<IBookServices>(() => new BookManager(repositoryManager, logger));
     }
 
     public IBookServices BookService => _bookService.Value;

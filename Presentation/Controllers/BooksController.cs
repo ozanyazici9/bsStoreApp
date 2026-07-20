@@ -21,7 +21,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllBooks()
+    public IActionResult GetAllBooks()
     {
         try
         {
@@ -35,7 +35,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetOneBook([FromRoute(Name = "id")] int id)
+    public IActionResult GetOneBook([FromRoute(Name = "id")] int id)
     {
         try
         {
@@ -49,7 +49,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateOneBook([FromBody] Book book)
+    public IActionResult CreateOneBook([FromBody] Book book)
     {
         try
         {
@@ -67,7 +67,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateOneBook(
+    public IActionResult UpdateOneBook(
         [FromRoute(Name = "id")] int id,
         [FromBody] Book book
     )
@@ -87,7 +87,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> DeleteAllBooks([FromRoute(Name = "id")] int id)
+    public IActionResult DeleteAllBooks([FromRoute(Name = "id")] int id)
     {
         try
         {
@@ -101,7 +101,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<IActionResult> PartiallyUpdateOneBook(
+    public IActionResult PartiallyUpdateOneBook(
         [FromRoute(Name = "id")] int id,
         [FromBody] JsonPatchDocument<Book> bookPatch
     )

@@ -1,0 +1,5 @@
+2026-07-20 17:53:39.5372 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-20 17:53:39.5475 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-20 17:53:39.5715 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-07-20 17:58:51.3833 Info AppDomain Shutting down. LogFactory closing...
+2026-07-20 17:58:51.3833 Info LogFactory has been disposed.
