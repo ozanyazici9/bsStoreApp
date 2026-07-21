@@ -3,3 +3,16 @@
 2026-07-20 17:53:39.5715 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
 2026-07-20 17:58:51.3833 Info AppDomain Shutting down. LogFactory closing...
 2026-07-20 17:58:51.3833 Info LogFactory has been disposed.
+2026-07-21 11:12:57.7454 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-21 11:12:57.7607 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-21 11:12:57.7908 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-07-21 11:23:57.4007 Info AppDomain Shutting down. LogFactory closing...
+2026-07-21 11:23:57.4007 Info LogFactory has been disposed.
+2026-07-21 11:24:07.4174 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-21 11:24:07.4277 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-21 11:24:07.4478 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-07-21 11:25:03.1896 Info AppDomain Shutting down. LogFactory closing...
+2026-07-21 11:25:03.2062 Info LogFactory has been disposed.
+2026-07-21 11:25:19.1603 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-21 11:25:19.1603 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-21 11:25:19.1902 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
