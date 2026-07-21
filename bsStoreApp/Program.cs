@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using Repositories.EFCore;
+using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+LogManager
+    .Setup()
+    .LoadConfigurationFromFile(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 // Add services to the container.
 
@@ -28,12 +31,20 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+var logger = app.Services.GetRequiredService<ILoggerService>();
+app.ConfigureExceptionHandler(logger);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapOpenApi();
+}
+
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
