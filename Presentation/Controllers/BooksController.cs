@@ -30,7 +30,6 @@ public class BooksController : ControllerBase
     [HttpGet("{id:int}")]
     public IActionResult GetOneBook([FromRoute(Name = "id")] int id)
     {
-        throw new Exception("test");
         var book = _manager.BookService.GetOneBookById(id, trackChanges: false);
 
         if (book is null)
