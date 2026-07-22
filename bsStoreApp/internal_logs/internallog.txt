@@ -21,3 +21,18 @@
 2026-07-21 15:04:43.2705 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
 2026-07-21 15:05:06.6765 Info AppDomain Shutting down. LogFactory closing...
 2026-07-21 15:05:06.6862 Info LogFactory has been disposed.
+2026-07-22 11:51:27.1920 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-22 11:51:27.2064 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-22 11:51:27.2368 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-07-22 12:01:09.1185 Info AppDomain Shutting down. LogFactory closing...
+2026-07-22 12:01:09.1185 Info LogFactory has been disposed.
+2026-07-22 12:01:14.5533 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-22 12:01:14.5678 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-22 12:01:14.5888 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-07-22 12:08:25.7383 Info AppDomain Shutting down. LogFactory closing...
+2026-07-22 12:08:25.7383 Info LogFactory has been disposed.
+2026-07-22 12:08:31.4535 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-07-22 12:08:31.4653 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-07-22 12:08:31.4923 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-07-22 12:17:38.3235 Info AppDomain Shutting down. LogFactory closing...
+2026-07-22 12:17:38.3302 Info LogFactory has been disposed.

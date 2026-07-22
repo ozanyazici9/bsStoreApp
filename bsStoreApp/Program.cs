@@ -14,7 +14,11 @@ LogManager
 // Add services to the container.
 
 builder
-    .Services.AddControllers()
+    .Services.AddControllers(config =>
+    {
+        config.RespectBrowserAcceptHeader = true;
+        config.ReturnHttpNotAcceptable = true;
+    })
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
 
