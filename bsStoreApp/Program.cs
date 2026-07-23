@@ -1,8 +1,5 @@
 using bsStoreApp.Extensions;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.EntityFrameworkCore;
 using NLog;
-using Repositories.EFCore;
 using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
