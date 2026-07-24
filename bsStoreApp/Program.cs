@@ -1,4 +1,5 @@
 using bsStoreApp.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Services.Contracts;
 
@@ -21,6 +22,11 @@ builder
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddNewtonsoftJson();
@@ -28,7 +34,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(Services.AssemblyReference).Assembly);
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
