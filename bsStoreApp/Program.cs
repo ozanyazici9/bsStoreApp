@@ -34,7 +34,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
-builder.Services.AddAutoMapper(typeof(Services.AssemblyReference).Assembly);
+builder.Services.AddAutoMapper(cfg => {}, typeof(Program));
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

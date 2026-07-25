@@ -11,12 +11,10 @@ namespace Presentation.Controllers;
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;
-    private readonly IMapper _mapper;
 
-    public BooksController(IServiceManager manager, IMapper mapper)
+    public BooksController(IServiceManager manager)
     {
         _manager = manager;
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -54,10 +52,13 @@ public class BooksController : ControllerBase
         [FromBody] BookDtoForUpdate bookDto
     )
     {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
         if (id != bookDto.Id)
             return BadRequest();
 
-        _manager.BookService.UpdateOneBook(id, bookDto, trackChanges: true);
+        _manager.BookService.UpdateOneBook(id, bookDto, trackChanges: false);
         return NoContent();
     }
 
@@ -74,12 +75,20 @@ public class BooksController : ControllerBase
         [FromBody] JsonPatchDocument<BookDtoForUpdate> bookPatch
     )
     {
-        var entity = _manager.BookService.GetOneBookById(id, trackChanges: true);
+        if (bookPatch is null)
+            return BadRequest(); // 400
 
-        var bookDto = _mapper.Map<BookDtoForUpdate>(entity);
+        var result = _manager.BookService.GetOneBookForPatch(id, trackChanges: false);
 
-        bookPatch.ApplyTo(bookDto);
-        _manager.BookService.UpdateOneBook(id, bookDto, trackChanges: true);
+        bookPatch.ApplyTo(result.bookDtoForUpdate, ModelState);
+
+        TryValidateModel(result.bookDtoForUpdate);
+
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(ModelState);
+
+        _manager.BookService.SaveChangesForPatch(result.bookDtoForUpdate, result.book);
+
         return NoContent();
     }
 }
