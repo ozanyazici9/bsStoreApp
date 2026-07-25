@@ -1,6 +1,7 @@
 using bsStoreApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Presentation.ActionFilters;
 using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder
     .AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
+
+builder.Services.AddScoped<ValidationFilterAttribute>(); // IoC
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
