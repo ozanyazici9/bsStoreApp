@@ -84,9 +84,6 @@ public class BookManager : IBookServices
         if (entity is null)
             throw new BookNotFoundException(id);
 
-        if (bookDto is null)
-            throw new ArgumentNullException(nameof(bookDto));
-
         // Mapping
         // entity.Title = bookDto.Title;
         // entity.Price = bookDto.Price;
