@@ -23,8 +23,6 @@ builder
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
 
-builder.Services.AddScoped<ValidationFilterAttribute>(); // IoC
-
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
@@ -38,6 +36,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(cfg => {}, typeof(Program));
+builder.Services.ConfigureActionFilters();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
