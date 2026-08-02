@@ -1,4 +1,3 @@
-using AutoMapper;
 using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +43,7 @@ public class BooksController : ControllerBase
 
     /// <summary>
     /// Bir metodun/sınıfın üzerine attribute yazdığında, bu bilgi derleme zamanında metadata olarak assembly'ye gömülüyor. ASP.NET Core, uygulama başlarken (startup'ta) Controller'ları ve Action'ları tararken bu metadata'yı System.Reflection API'si üzerinden okuyor (GetCustomAttributes() gibi metodlarla). Yani "bu action'ın üzerinde hangi filter'lar var" bilgisini framework, reflection ile keşfediyor. Bu keşif işlemi genelde cache'leniyor (her request'te tekrar tekrar yapılmıyor), performans kaybı yaşanmasın diye.
+    /// Bu ServiceFilterlar AOP (Aspect Oriented Programming) tekniklerinden biri.
     /// </summary>
 
     [ServiceFilter(typeof(ValidationFilterAttribute))]
