@@ -133,3 +133,11 @@
 2026-08-02 16:07:31.5245 Info Registered target NLog.Targets.FileTarget(Name=logfile)
 2026-08-02 16:07:31.5245 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
 2026-08-02 16:07:31.5542 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-02 19:15:32.5097 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-02 19:15:32.5198 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-02 19:15:32.5411 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-02 19:39:38.4538 Info AppDomain Shutting down. LogFactory closing...
+2026-08-02 20:02:46.1388 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-02 20:02:46.1528 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-02 20:02:46.1760 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-02 20:06:44.4002 Info AppDomain Shutting down. LogFactory closing...
