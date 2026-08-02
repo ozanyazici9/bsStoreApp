@@ -23,6 +23,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>
 
     public void Delete(T entity) => _context.Set<T>().Remove(entity);
 
+    // bunlar virtual ile yazılabilir. üstüne ekleme yapılmayacak sınıfta (orderby falan) hiç tekrardan yazılmasına gerek kalmaz.
     public IQueryable<T> FindAll(bool trackChanges) =>
         trackChanges ? _context.Set<T>() : _context.Set<T>().AsNoTracking();
 

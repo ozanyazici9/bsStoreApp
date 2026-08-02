@@ -1,6 +1,7 @@
 using bsStoreApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using Presentation.ActionFilters;
 using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,7 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
 builder.Services.AddAutoMapper(cfg => {}, typeof(Program));
+builder.Services.ConfigureActionFilters();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
