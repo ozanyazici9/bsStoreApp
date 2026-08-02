@@ -1,10 +1,11 @@
 using Entities.Models;
+using Entities.RequestFeatures;
 
 namespace Repositories.Contracts;
 
 public interface IBookRepository : IRepositoryBase<Book>
 {
-    Task<IEnumerable<Book>> GetAllBooksAsync(bool trackChanges);
+    Task<IEnumerable<Book>> GetAllBooksAsync(BookParameters bookParameters, bool trackChanges);
     Task<Book> GetOneBookByIdAsync(int id, bool trackChanges);
 
     // Bunlar async değil çünkü memory üzerinde çalışıyor. Repository manager üzerindeki save methodu async olmalı.

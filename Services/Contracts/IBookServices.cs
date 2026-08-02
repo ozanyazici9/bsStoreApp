@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Entities.RequestFeatures;
 
 namespace Services.Contracts;
 
 public interface IBookServices
 {
-    Task<IEnumerable<BookDto>> GetAllBooksAsync(bool trackChanges);
+    Task<IEnumerable<BookDto>> GetAllBooksAsync(BookParameters bookParameters, bool trackChanges);
     Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges);
     Task<BookDto> CreateOneBookAsync(BookDtoForInsertion book);
     Task UpdateOneBookAsync(int id, BookDtoForUpdate bookDto, bool trackChanges);
