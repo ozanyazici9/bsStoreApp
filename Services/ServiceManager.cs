@@ -12,9 +12,9 @@ public class ServiceManager : IServiceManager
 {
     private readonly Lazy<IBookServices> _bookService;
 
-    public ServiceManager(IRepositoryManager repositoryManager, ILoggerService logger, IMapper mapper)
+    public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper)
     {
-        _bookService = new Lazy<IBookServices>(() => new BookManager(repositoryManager, logger, mapper));
+        _bookService = new Lazy<IBookServices>(() => new BookManager(repositoryManager, mapper));
     }
 
     public IBookServices BookService => _bookService.Value;
