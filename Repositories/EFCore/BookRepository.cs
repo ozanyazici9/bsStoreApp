@@ -19,9 +19,18 @@ public class BookRepository : RepositoryBase<Book>, IBookRepository
         bool trackChanges
     )
     {
-        var books = await FindAll(trackChanges).OrderBy(b => b.Id).ToListAsync();
+        var books = await FindByCondition(
+                b => (b.Price >= bookParameters.MinPrice) && (b.Price <= bookParameters.MaxPrice),
+                trackChanges
+            )
+            .OrderBy(b => b.Id)
+            .ToListAsync();
 
-        return PagedList<Book>.ToPagedList(books, bookParameters.PageNumber,bookParameters.PageSize);
+        return PagedList<Book>.ToPagedList(
+            books,
+            bookParameters.PageNumber,
+            bookParameters.PageSize
+        );
     }
 
     public async Task<Book> GetOneBookByIdAsync(int id, bool trackChanges) =>
