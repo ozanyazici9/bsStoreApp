@@ -1,3 +1,4 @@
+using System.Dynamic;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Exceptions;
@@ -12,11 +13,13 @@ public class BookManager : IBookServices
 {
     private readonly IRepositoryManager _manager;
     private readonly IMapper _mapper;
+    private readonly IDataShaper<BookDto> _shapper;
 
-    public BookManager(IRepositoryManager manager, IMapper mapper)
+    public BookManager(IRepositoryManager manager, IMapper mapper, IDataShaper<BookDto> shapper)
     {
         _manager = manager;
         _mapper = mapper;
+        _shapper = shapper;
     }
 
     public async Task<BookDto> CreateOneBookAsync(BookDtoForInsertion bookDto)
@@ -36,15 +39,19 @@ public class BookManager : IBookServices
         await _manager.SaveAsync();
     }
 
-    public async Task<(IEnumerable<BookDto>, MetaData)> GetAllBooksAsync(BookParameters bookParameters, bool trackChanges)
+    public async Task<(IEnumerable<ExpandoObject>, MetaData)> GetAllBooksAsync(
+        BookParameters bookParameters,
+        bool trackChanges
+    )
     {
         if (!bookParameters.ValidPriceRange)
             throw new PriceOutofRangeBadRequestException();
 
-        var booksWithMetaData = await _manager.Book.GetAllBooksAsync(bookParameters ,trackChanges);
+        var booksWithMetaData = await _manager.Book.GetAllBooksAsync(bookParameters, trackChanges);
 
         var booksDto = _mapper.Map<IEnumerable<BookDto>>(booksWithMetaData);
-        return (booksDto, booksWithMetaData.MetaData);
+        var shapedBooks = _shapper.ShapeData(booksDto, bookParameters.Fields);
+        return (books: shapedBooks, metaData: booksWithMetaData.MetaData);
     }
 
     public async Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges)
@@ -85,7 +92,7 @@ public class BookManager : IBookServices
         await _manager.SaveAsync();
     }
 
-    private async Task<Book> GetOneBookAndCheckExists(int id , bool trackChanges)
+    private async Task<Book> GetOneBookAndCheckExists(int id, bool trackChanges)
     {
         var entity = await _manager.Book.GetOneBookByIdAsync(id, trackChanges);
 
