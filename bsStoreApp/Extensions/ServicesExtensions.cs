@@ -1,3 +1,4 @@
+using Entities.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Repositories.Contracts;
@@ -38,13 +39,18 @@ public static class ServicesExtensions
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("CorsPolicy", builder => 
-                builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .WithExposedHeaders("X-Pagination")
+            options.AddPolicy(
+                "CorsPolicy",
+                builder =>
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithExposedHeaders("X-Pagination")
             );
         });
     }
 
+    public static void ConfigureDataShapper(this IServiceCollection services) =>
+        services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
 }
