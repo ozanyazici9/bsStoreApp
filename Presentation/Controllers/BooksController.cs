@@ -1,11 +1,11 @@
 using System.Text.Json;
 using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
-using Microsoft.AspNetCore.Http;
 
 namespace Presentation.Controllers;
 
@@ -26,7 +26,7 @@ public class BooksController : ControllerBase
     {
         var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters, false);
 
-        Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));      
+        Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(pagedResult.metaData));
 
         return Ok(pagedResult.books);
     }
@@ -51,7 +51,6 @@ public class BooksController : ControllerBase
     /// Bir metodun/sınıfın üzerine attribute yazdığında, bu bilgi derleme zamanında metadata olarak assembly'ye gömülüyor. ASP.NET Core, uygulama başlarken (startup'ta) Controller'ları ve Action'ları tararken bu metadata'yı System.Reflection API'si üzerinden okuyor (GetCustomAttributes() gibi metodlarla). Yani "bu action'ın üzerinde hangi filter'lar var" bilgisini framework, reflection ile keşfediyor. Bu keşif işlemi genelde cache'leniyor (her request'te tekrar tekrar yapılmıyor), performans kaybı yaşanmasın diye.
     /// Bu ServiceFilterlar AOP (Aspect Oriented Programming) tekniklerinden biri.
     /// </summary>
-
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateOneBookAsync(
@@ -94,5 +93,12 @@ public class BooksController : ControllerBase
         await _manager.BookService.SaveChangesForPatchAsync(result.bookDtoForUpdate, result.book);
 
         return NoContent();
+    }
+
+    [HttpOptions]
+    public IActionResult GetBooksOptions()
+    {
+        Response.Headers.Add("Allow", "GET, PUT, DELETE, PATCH, POST, OPTIONS, HEAD");
+        return Ok();
     }
 }
