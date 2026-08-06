@@ -157,3 +157,14 @@
 2026-08-04 16:32:29.6296 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
 2026-08-04 16:49:55.7184 Info AppDomain Shutting down. LogFactory closing...
 2026-08-04 16:49:55.7298 Info LogFactory has been disposed.
+2026-08-05 16:23:58.2697 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-05 16:23:58.2803 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-05 16:23:58.3003 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-05 16:26:59.5275 Info AppDomain Shutting down. LogFactory closing...
+2026-08-05 16:26:59.5384 Info LogFactory has been disposed.
+2026-08-06 14:31:56.9791 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-06 14:31:56.9985 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-06 14:31:57.0265 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-06 14:44:14.9998 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-06 14:44:15.0135 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-06 14:44:15.0375 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
