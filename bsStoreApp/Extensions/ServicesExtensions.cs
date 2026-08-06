@@ -62,6 +62,7 @@ public static class ServicesExtensions
             opt.ReportApiVersions = true;
             opt.AssumeDefaultVersionWhenUnspecified = true;
             opt.DefaultApiVersion = new ApiVersion(1, 0);
-        });
+        })
+        .AddMvc();
     }
 }
