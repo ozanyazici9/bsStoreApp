@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Entities.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
@@ -53,4 +54,14 @@ public static class ServicesExtensions
 
     public static void ConfigureDataShapper(this IServiceCollection services) =>
         services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
+
+    public static void ConfigureVersioning(this IServiceCollection services)
+    {
+        services.AddApiVersioning(opt =>
+        {
+            opt.ReportApiVersions = true;
+            opt.AssumeDefaultVersionWhenUnspecified = true;
+            opt.DefaultApiVersion = new ApiVersion(1, 0);
+        });
+    }
 }

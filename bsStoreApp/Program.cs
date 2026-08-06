@@ -39,6 +39,7 @@ builder.Services.AddAutoMapper(cfg => {}, typeof(Program));
 builder.Services.ConfigureActionFilters();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShapper();
+builder.Services.ConfigureVersioning();
 
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
