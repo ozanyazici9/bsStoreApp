@@ -21,6 +21,7 @@ public class BooksController : ControllerBase
         _manager = manager;
     }
 
+    [HttpHead]
     [HttpGet]
     public async Task<IActionResult> GetAllBooksAsync([FromQuery] BookParameters bookParameters)
     {
