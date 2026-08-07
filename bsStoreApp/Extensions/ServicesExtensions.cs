@@ -1,6 +1,8 @@
+using Asp.Versioning;
 using Entities.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
+using Presentation.Controllers;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
@@ -53,4 +55,20 @@ public static class ServicesExtensions
 
     public static void ConfigureDataShapper(this IServiceCollection services) =>
         services.AddScoped<IDataShaper<BookDto>, DataShaper<BookDto>>();
+
+    public static void ConfigureVersioning(this IServiceCollection services)
+    {
+        services
+            .AddApiVersioning(opt =>
+            {
+                opt.ReportApiVersions = true;
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+            })
+            .AddMvc(opt =>
+            {
+                opt.Conventions.Controller<BooksController>().HasApiVersion(new ApiVersion(1, 0));
+                opt.Conventions.Controller<BooksV2Controller>().HasDeprecatedApiVersion(new ApiVersion(2, 0));
+            });
+    }
 }

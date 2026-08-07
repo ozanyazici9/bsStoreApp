@@ -6,6 +6,7 @@ namespace Repositories.Contracts;
 public interface IBookRepository : IRepositoryBase<Book>
 {
     Task<PagedList<Book>> GetAllBooksAsync(BookParameters bookParameters, bool trackChanges);
+    Task<List<Book>> GetAllBooksAsync(bool trackChanges);
     Task<Book> GetOneBookByIdAsync(int id, bool trackChanges);
 
     // Bunlar async değil çünkü memory üzerinde çalışıyor. Repository manager üzerindeki save methodu async olmalı.

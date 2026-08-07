@@ -34,6 +34,12 @@ public sealed class BookRepository : RepositoryBase<Book>, IBookRepository
         );
     }
 
+    public async Task<List<Book>> GetAllBooksAsync(bool trackChanges)
+    {
+        var books = await FindAll(trackChanges).OrderBy(b => b.Id).ToListAsync();
+        return books;
+    }
+
     public async Task<Book> GetOneBookByIdAsync(int id, bool trackChanges) =>
         await FindByCondition(b => b.Id.Equals(id), trackChanges).SingleOrDefaultAsync();
 

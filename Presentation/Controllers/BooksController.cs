@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Asp.Versioning;
 using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
@@ -9,9 +10,10 @@ using Services.Contracts;
 
 namespace Presentation.Controllers;
 
+//[ApiVersion("1.0")]
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/{v:apiversion}/books")]
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;
