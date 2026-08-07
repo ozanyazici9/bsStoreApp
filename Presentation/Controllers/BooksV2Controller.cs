@@ -4,7 +4,7 @@ using Services.Contracts;
 
 namespace Presentation.Controllers;
 
-[ApiVersion("2.0", Deprecated = true)]
+//[ApiVersion("2.0", Deprecated = true)]
 [ApiController]
 [Route("api/{v:apiversion}/books")]
 public class BooksV2Controller : ControllerBase
