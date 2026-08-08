@@ -2,6 +2,7 @@ using System.Text.Json;
 using Asp.Versioning;
 using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,8 @@ namespace Presentation.Controllers;
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
 [Route("api/{v:apiversion}/books")]
+//[ResponseCache(CacheProfileName = "5mins")]
+//[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 80)]
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;
@@ -24,7 +27,8 @@ public class BooksController : ControllerBase
     }
 
     [HttpHead]
-    [HttpGet]
+    [HttpGet(Name = "GetAllBooksAsync")]
+    //[ResponseCache(Duration = 60)]
     public async Task<IActionResult> GetAllBooksAsync([FromQuery] BookParameters bookParameters)
     {
         var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters, false);
