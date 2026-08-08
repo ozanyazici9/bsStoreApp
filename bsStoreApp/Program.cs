@@ -17,6 +17,7 @@ builder
     {
         config.RespectBrowserAcceptHeader = true;
         config.ReturnHttpNotAcceptable = true;
+        config.CacheProfiles.Add("5mins", new CacheProfile { Duration = 300 });
     })
     .AddCustomCsvFormatter()
     .AddXmlDataContractSerializerFormatters()
@@ -35,12 +36,12 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
 builder.Services.ConfigureLoggerService();
-builder.Services.AddAutoMapper(cfg => {}, typeof(Program));
+builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.ConfigureActionFilters();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShapper();
 builder.Services.ConfigureVersioning();
-
+builder.Services.ConfigureResponseCaching();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -66,6 +67,8 @@ if (app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
+
+app.UseResponseCaching();
 
 app.UseAuthorization();
 

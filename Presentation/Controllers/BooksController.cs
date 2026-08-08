@@ -14,6 +14,7 @@ namespace Presentation.Controllers;
 [ServiceFilter(typeof(LogFilterAttribute))]
 [ApiController]
 [Route("api/{v:apiversion}/books")]
+[ResponseCache(CacheProfileName = "5mins")]
 public class BooksController : ControllerBase
 {
     private readonly IServiceManager _manager;
@@ -24,7 +25,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpHead]
-    [HttpGet]
+    [HttpGet(Name = "GetAllBooksAsync")]
     public async Task<IActionResult> GetAllBooksAsync([FromQuery] BookParameters bookParameters)
     {
         var pagedResult = await _manager.BookService.GetAllBooksAsync(bookParameters, false);
