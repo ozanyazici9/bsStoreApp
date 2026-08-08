@@ -42,6 +42,7 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShapper();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
+builder.Services.ConfigureHttpCacheHeaders();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -69,6 +70,8 @@ app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
 app.UseResponseCaching();
+
+app.UseHttpCacheHeaders();
 
 app.UseAuthorization();
 

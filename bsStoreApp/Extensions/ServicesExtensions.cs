@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Entities.DataTransferObjects;
+using Marvin.Cache.Headers;
 using Microsoft.EntityFrameworkCore;
 using Presentation.ActionFilters;
 using Presentation.Controllers;
@@ -68,10 +69,26 @@ public static class ServicesExtensions
             .AddMvc(opt =>
             {
                 opt.Conventions.Controller<BooksController>().HasApiVersion(new ApiVersion(1, 0));
-                opt.Conventions.Controller<BooksV2Controller>().HasDeprecatedApiVersion(new ApiVersion(2, 0));
+                opt.Conventions.Controller<BooksV2Controller>()
+                    .HasDeprecatedApiVersion(new ApiVersion(2, 0));
             });
     }
 
-    public static void ConfigureResponseCaching(this IServiceCollection services) => 
+    public static void ConfigureResponseCaching(this IServiceCollection services) =>
         services.AddResponseCaching();
+
+    public static void ConfigureHttpCacheHeaders(this IServiceCollection services) =>
+        services.AddHttpCacheHeaders(
+            expirationOpt =>
+            {
+                expirationOpt.MaxAge = 90;
+                //public değeri ekleniyor. Bu, sadece client tarayıcısının değil, aradaki paylaşımlı cache'lerin de (CDN, reverse proxy, ISP cache'i gibi) bu response'u cache'lemesine izin verildiği anlamına geliyor. Alternatifi Private olsaydı, sadece son kullanıcının kendi tarayıcısı cache'leyebilirdi — kullanıcıya özel veri (örneğin kişisel profil bilgisi) döndüren endpoint'lerde Private tercih edilir.
+                expirationOpt.CacheLocation = CacheLocation.Public;
+            },
+            validationOpt =>
+            {
+                //must-revalidate eklenmiyor. Bunun anlamı: 90 saniyelik süre dolduktan sonra client, sunucuya sorup doğrulamadan da (biraz "bayat" olsa dahi) elindeki cache'lenmiş veriyi kullanmaya devam edebilir. Eğer true olsaydı, süre dolar dolmaz client zorunlu olarak sunucuya gidip ETag/Last-Modified ile doğrulama yapmak zorunda kalırdı, aksi halde o veriyi kullanamazdı.
+                validationOpt.MustRevalidate = false;
+            }
+        );
 }
