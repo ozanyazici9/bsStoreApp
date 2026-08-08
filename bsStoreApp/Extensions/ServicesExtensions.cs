@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using AspNetCoreRateLimit;
 using Entities.DataTransferObjects;
 using Marvin.Cache.Headers;
 using Microsoft.EntityFrameworkCore;
@@ -91,4 +92,26 @@ public static class ServicesExtensions
                 validationOpt.MustRevalidate = false;
             }
         );
+
+    public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+    {
+        var rateLimitRules = new List<RateLimitRule>
+        {
+            new RateLimitRule
+            {
+                Endpoint = "*",
+                Period = "1m",
+                Limit = 3,
+            },
+        };
+
+        services.Configure<IpRateLimitOptions>(opt => { opt.GeneralRules = rateLimitRules; });
+
+        services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+        services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+
+    }
 }

@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using bsStoreApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
@@ -43,6 +44,9 @@ builder.Services.ConfigureDataShapper();
 builder.Services.ConfigureVersioning();
 builder.Services.ConfigureResponseCaching();
 builder.Services.ConfigureHttpCacheHeaders();
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -66,6 +70,8 @@ if (app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
+
+app.UseIpRateLimiting();
 
 app.UseCors("CorsPolicy");
 
