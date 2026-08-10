@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers;
 
@@ -26,6 +27,7 @@ public class BooksController : ControllerBase
         _manager = manager;
     }
 
+    [Authorize]
     [HttpHead]
     [HttpGet(Name = "GetAllBooksAsync")]
     //[ResponseCache(Duration = 60)]
