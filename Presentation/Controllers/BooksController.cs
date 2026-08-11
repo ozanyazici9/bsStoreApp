@@ -40,6 +40,7 @@ public class BooksController : ControllerBase
         return Ok(pagedResult.books);
     }
 
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetOneBookAsync([FromRoute(Name = "id")] int id)
     {
@@ -48,6 +49,7 @@ public class BooksController : ControllerBase
         return Ok(book);
     }
 
+    [Authorize(Roles = "Admin, Editor")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPost]
     public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
@@ -60,6 +62,8 @@ public class BooksController : ControllerBase
     /// Bir metodun/sınıfın üzerine attribute yazdığında, bu bilgi derleme zamanında metadata olarak assembly'ye gömülüyor. ASP.NET Core, uygulama başlarken (startup'ta) Controller'ları ve Action'ları tararken bu metadata'yı System.Reflection API'si üzerinden okuyor (GetCustomAttributes() gibi metodlarla). Yani "bu action'ın üzerinde hangi filter'lar var" bilgisini framework, reflection ile keşfediyor. Bu keşif işlemi genelde cache'leniyor (her request'te tekrar tekrar yapılmıyor), performans kaybı yaşanmasın diye.
     /// Bu ServiceFilterlar AOP (Aspect Oriented Programming) tekniklerinden biri.
     /// </summary>
+    
+    [Authorize(Roles = "Admin, Editor")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateOneBookAsync(
@@ -73,7 +77,8 @@ public class BooksController : ControllerBase
         await _manager.BookService.UpdateOneBookAsync(id, bookDto, trackChanges: false);
         return NoContent();
     }
-
+ 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteAllBooksAsync([FromRoute(Name = "id")] int id)
     {
@@ -81,6 +86,7 @@ public class BooksController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin, Editor")]
     [HttpPatch("{id:int}")]
     public async Task<IActionResult> PartiallyUpdateOneBookAsync(
         [FromRoute(Name = "id")] int id,
@@ -104,6 +110,7 @@ public class BooksController : ControllerBase
         return NoContent();
     }
 
+    [Authorize]
     [HttpOptions]
     public IActionResult GetBooksOptions()
     {
