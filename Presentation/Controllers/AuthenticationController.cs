@@ -1,4 +1,5 @@
 using Entities.DataTransferObjects;
+using Entities.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
@@ -35,5 +36,19 @@ public class AuthenticationController : ControllerBase
         }
 
         return StatusCode(201);
+    }
+
+    [HttpPost("login")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
+    {
+        var validResult = await _service.AuthenticationService.ValidateUser(user);
+
+        if (!validResult)
+            return Unauthorized(); // 401
+
+        var token = await _service.AuthenticationService.CreateToken();
+
+        return Ok(new { Token = token });
     }
 }

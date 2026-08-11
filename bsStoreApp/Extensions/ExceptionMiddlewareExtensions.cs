@@ -1,4 +1,3 @@
-using System.Net;
 using Entities.ErrorModel;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
