@@ -47,8 +47,8 @@ public class AuthenticationController : ControllerBase
         if (!validResult)
             return Unauthorized(); // 401
 
-        var token = await _service.AuthenticationService.CreateToken();
+        var tokenDto = await _service.AuthenticationService.CreateToken(true);
 
-        return Ok(new { Token = token });
+        return Ok(tokenDto);
     }
 }
