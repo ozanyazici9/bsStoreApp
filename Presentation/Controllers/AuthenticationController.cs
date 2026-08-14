@@ -1,6 +1,4 @@
 using Entities.DataTransferObjects;
-using Entities.Exceptions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
@@ -9,6 +7,7 @@ namespace Presentation.Controllers;
 
 [ApiController]
 [Route("api/authentication")]
+[ApiExplorerSettings(GroupName = "v1")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IServiceManager _service;

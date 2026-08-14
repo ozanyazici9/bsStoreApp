@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Presentation.ActionFilters;
 using Presentation.Controllers;
 using Repositories.Contracts;
@@ -68,15 +69,21 @@ public static class ServicesExtensions
         services
             .AddApiVersioning(opt =>
             {
-                opt.ReportApiVersions = true;
-                opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.ReportApiVersions = true;
+                opt.ApiVersionReader = new UrlSegmentApiVersionReader();
             })
             .AddMvc(opt =>
             {
                 opt.Conventions.Controller<BooksController>().HasApiVersion(new ApiVersion(1, 0));
-                opt.Conventions.Controller<BooksV2Controller>()
-                    .HasDeprecatedApiVersion(new ApiVersion(2, 0));
+
+                opt.Conventions.Controller<BooksV2Controller>().HasApiVersion(new ApiVersion(2, 0));
+            })
+            .AddApiExplorer(opt =>
+            {
+                opt.GroupNameFormat = "'v'VVV";
+                opt.SubstituteApiVersionInUrl = true;
             });
     }
 
@@ -162,5 +169,14 @@ public static class ServicesExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!)),
                 };
             });
+    }
+
+    public static void ConfigureSwagger(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(s =>
+        {
+            s.SwaggerDoc("v1", new OpenApiInfo { Title = "BTK Akademi", Version = "v1" });
+            s.SwaggerDoc("v2", new OpenApiInfo { Title = "BTK Akademi", Version = "v2" });
+        });
     }
 }
