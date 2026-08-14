@@ -15,7 +15,6 @@ LogManager
 builder
     .Services.AddControllers(config =>
     {
-        config.RespectBrowserAcceptHeader = true;
         config.ReturnHttpNotAcceptable = true;
         config.CacheProfiles.Add("5mins", new CacheProfile { Duration = 300 });
     })
@@ -23,6 +22,16 @@ builder
     .AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
+
+builder.Services.Configure<MvcOptions>(options =>
+{
+    var jsonFormatter = options
+        .OutputFormatters.OfType<Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter>()
+        .First();
+
+    options.OutputFormatters.Remove(jsonFormatter);
+    options.OutputFormatters.Insert(0, jsonFormatter);
+});
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
