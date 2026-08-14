@@ -175,7 +175,22 @@ public static class ServicesExtensions
     {
         services.AddSwaggerGen(s =>
         {
-            s.SwaggerDoc("v1", new OpenApiInfo { Title = "BTK Akademi", Version = "v1" });
+            s.SwaggerDoc(
+                "v1",
+                new OpenApiInfo
+                {
+                    Title = "BTK Akademi",
+                    Version = "v1",
+                    Description = "BTK Akademi ASP.NET Core API",
+                    TermsOfService =new Uri("https://www.btkakademi.gov.tr/"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Ozan Yazıcı",
+                        Email = "ozanyazici9@gmail.com",
+                        Url = new Uri("https://www.ozanyazici.com.tr/")
+                    }
+                }
+            );
             s.SwaggerDoc("v2", new OpenApiInfo { Title = "BTK Akademi", Version = "v2" });
 
             s.AddSecurityDefinition(
