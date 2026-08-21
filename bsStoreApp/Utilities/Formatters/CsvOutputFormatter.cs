@@ -1,50 +1,107 @@
 using Microsoft.Net.Http.Headers;
+using System.Dynamic;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Entities.DataTransferObjects;
 
-namespace bsStoreApp.Utilities.Formatters
+namespace bsStoreApp.Utilities.Formatters;
+
+public class CsvOutputFormatter : TextOutputFormatter
 {
-    public class CsvOutputFormatter : TextOutputFormatter
+    public CsvOutputFormatter()
     {
-        public CsvOutputFormatter()
-        {
-            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/csv"));
-            SupportedEncodings.Add(Encoding.UTF8);
-            SupportedEncodings.Add(Encoding.Unicode);
-        }
+        SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("text/csv"));
 
-        protected override bool CanWriteType(Type? type)
-        {
-            if (typeof(BookDto).IsAssignableFrom(type) || typeof(IEnumerable<BookDto>).IsAssignableFrom(type))
-            {
-                return base.CanWriteType(type);
-            }
+        SupportedEncodings.Add(Encoding.UTF8);
+        SupportedEncodings.Add(Encoding.Unicode);
+    }
+
+    protected override bool CanWriteType(Type? type)
+    {
+        if (type is null)
             return false;
-        }
 
-        private static void FormatCsv(StringBuilder buffer, BookDto book)
+        return typeof(ExpandoObject).IsAssignableFrom(type)
+               || typeof(IEnumerable<ExpandoObject>).IsAssignableFrom(type);
+    }
+
+    public override async Task WriteResponseBodyAsync(
+        OutputFormatterWriteContext context,
+        Encoding selectedEncoding)
+    {
+        var response = context.HttpContext.Response;
+        var buffer = new StringBuilder();
+
+        if (context.Object is IEnumerable<ExpandoObject> entities)
         {
-            buffer.AppendLine($"{book.Id}, {book.Title}, {book.Price}");
-        }
+            var entitiesList = entities.ToList();
 
-        public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
-        {
-            var response = context.HttpContext.Response;
-            var buffer = new StringBuilder();
-
-            if (context.Object is IEnumerable<BookDto>)
+            if (entitiesList.Count > 0)
             {
-                foreach (var book in (IEnumerable<BookDto>)context.Object)
+                var firstEntity = (IDictionary<string, object?>)entitiesList[0];
+
+                // Header
+                buffer.AppendLine(
+                    string.Join(",", firstEntity.Keys)
+                );
+
+                // Rows
+                foreach (var entity in entitiesList)
                 {
-                    FormatCsv(buffer, book);
+                    var dictionary = (IDictionary<string, object?>)entity;
+
+                    var values = dictionary.Values.Select(value =>
+                        EscapeCsvValue(value)
+                    );
+
+                    buffer.AppendLine(
+                        string.Join(",", values)
+                    );
                 }
-            } 
-            else
-            {
-                FormatCsv(buffer, (BookDto)context.Object!);
             }
-            await response.WriteAsync(buffer.ToString());
         }
+        else if (context.Object is ExpandoObject entity)
+        {
+            var dictionary = (IDictionary<string, object?>)entity;
+
+            // Header
+            buffer.AppendLine(
+                string.Join(",", dictionary.Keys)
+            );
+
+            // Row
+            var values = dictionary.Values.Select(value =>
+                EscapeCsvValue(value)
+            );
+
+            buffer.AppendLine(
+                string.Join(",", values)
+            );
+        }
+
+        await response.WriteAsync(
+            buffer.ToString(),
+            selectedEncoding
+        );
+    }
+
+    private static string EscapeCsvValue(object? value)
+    {
+        if (value is null)
+            return string.Empty;
+
+        var stringValue = value.ToString() ?? string.Empty;
+
+        // CSV'de virgül, çift tırnak veya satır sonu varsa
+        // değer çift tırnak içine alınmalıdır.
+        if (stringValue.Contains(',') ||
+            stringValue.Contains('"') ||
+            stringValue.Contains('\n') ||
+            stringValue.Contains('\r'))
+        {
+            stringValue = stringValue.Replace("\"", "\"\"");
+            return $"\"{stringValue}\"";
+        }
+
+        return stringValue;
     }
 }
