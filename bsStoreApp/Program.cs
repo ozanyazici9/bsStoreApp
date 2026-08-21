@@ -15,7 +15,6 @@ LogManager
 builder
     .Services.AddControllers(config =>
     {
-        config.RespectBrowserAcceptHeader = true;
         config.ReturnHttpNotAcceptable = true;
         config.CacheProfiles.Add("5mins", new CacheProfile { Duration = 300 });
     })
@@ -23,6 +22,16 @@ builder
     .AddXmlDataContractSerializerFormatters()
     .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly)
     .AddNewtonsoftJson();
+
+builder.Services.Configure<MvcOptions>(options =>
+{
+    var jsonFormatter = options
+        .OutputFormatters.OfType<Microsoft.AspNetCore.Mvc.Formatters.NewtonsoftJsonOutputFormatter>()
+        .First();
+
+    options.OutputFormatters.Remove(jsonFormatter);
+    options.OutputFormatters.Insert(0, jsonFormatter);
+});
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -48,6 +57,7 @@ builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwt(builder.Configuration);
+builder.Services.ConfigureSwagger();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -61,7 +71,11 @@ app.ConfigureExceptionHandler(logger);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "BTK Akademi v1");
+        s.SwaggerEndpoint("/swagger/v2/swagger.json", "BTK Akademi v2");
+    });
     app.MapOpenApi();
 }
 
