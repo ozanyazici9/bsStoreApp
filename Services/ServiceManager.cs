@@ -12,6 +12,7 @@ public class ServiceManager : IServiceManager
 {
     private readonly Lazy<IBookServices> _bookService;
     private readonly Lazy<IAuthenticationService> _authenticationService;
+    private readonly Lazy<ICategoryService> _categoryService;
 
     public ServiceManager(
         IRepositoryManager repositoryManager,
@@ -19,12 +20,18 @@ public class ServiceManager : IServiceManager
         IDataShaper<BookDto> shapper,
         ILoggerService logger,
         IConfiguration configuration,
-        UserManager<User> userManager
+        UserManager<User> userManager,
+        ICategoryService categoryService
     )
     {
         _bookService = new Lazy<IBookServices>(() =>
             new BookManager(repositoryManager, mapper, shapper)
         );
+
+        _categoryService = new Lazy<ICategoryService>(() =>
+            new CategoryManager(repositoryManager, mapper)
+        );
+
 
         _authenticationService = new Lazy<IAuthenticationService>(() =>
             new AuthenticationManager(logger, mapper, userManager, configuration)
@@ -32,6 +39,8 @@ public class ServiceManager : IServiceManager
     }
 
     public IBookServices BookService => _bookService.Value;
+
+    public ICategoryService CategoryService => _categoryService.Value;
 
     public IAuthenticationService AuthenticationService => _authenticationService.Value;
 }
