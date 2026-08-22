@@ -5,7 +5,7 @@ using Repositories.EFCore;
 
 namespace Repositories;
 
-public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
+public sealed class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
 {
     public CategoryRepository(RepositoryContext repositoryContext)
         : base(repositoryContext) { }

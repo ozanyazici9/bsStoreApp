@@ -20,8 +20,7 @@ public class ServiceManager : IServiceManager
         IDataShaper<BookDto> shapper,
         ILoggerService logger,
         IConfiguration configuration,
-        UserManager<User> userManager,
-        ICategoryService categoryService
+        UserManager<User> userManager
     )
     {
         _bookService = new Lazy<IBookServices>(() =>
