@@ -2,6 +2,6 @@ namespace Entities.DataTransferObjects;
 
 public record CategoryDto
 {
-    public int CategoryId { get; init; }
+    public int Id { get; init; }
     public string CategoryName { get; init; } = null!;
 }

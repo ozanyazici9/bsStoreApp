@@ -11,26 +11,12 @@ public static class BookRepositoryExtensions
         uint maxPrice
     ) => books.Where(b => b.Price >= minPrice && b.Price <= maxPrice);
 
-    public static IQueryable<Book> Search(this IQueryable<Book> books, string searchTerm)
+    public static IQueryable<Book> SearchBook(this IQueryable<Book> books, string searchTerm)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
             return books;
 
         var lowerCaseTerm = searchTerm.Trim().ToLower();
-        return books.Where(b => b.Title.ToLower().Contains(searchTerm));
-    }
-
-    public static IQueryable<Book> Sort(this IQueryable<Book> books, string orderByQueryString)
-    {
-        if (string.IsNullOrWhiteSpace(orderByQueryString))
-            return books.OrderBy(b => b.Id);
-
-        
-        var orderQuery = OrderQueryBuilder.CreateOrderQuery<Book>(orderByQueryString);
-
-        if (string.IsNullOrWhiteSpace(orderQuery))
-            return books.OrderBy(b => b.Id);
-
-        return books.OrderBy(orderQuery);
+        return books.Where(b => b.Title.ToLower().Contains(lowerCaseTerm));
     }
 }

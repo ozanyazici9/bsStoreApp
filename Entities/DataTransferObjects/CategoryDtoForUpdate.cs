@@ -5,5 +5,5 @@ namespace Entities.DataTransferObjects;
 public record CategoryDtoForUpdate : CategoryDtoForManipulation
 {
     [Required]
-    public int CategoryId { get; init; }
+    public int Id { get; init; }
 }

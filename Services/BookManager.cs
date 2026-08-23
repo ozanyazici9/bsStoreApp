@@ -87,12 +87,12 @@ public class BookManager : IBookServices
 
     public async Task UpdateOneBookAsync(int id, BookDtoForUpdate bookDto, bool trackChanges)
     {
-        var entity = await GetOneBookAndCheckExists(id, trackChanges);
+        await GetOneBookAndCheckExists(id, trackChanges);
 
         // Mapping
         // entity.Title = bookDto.Title;
         // entity.Price = bookDto.Price;
-        entity = _mapper.Map<Book>(bookDto);
+        var entity = _mapper.Map<Book>(bookDto);
 
         _manager.Book.UpdateOneBook(entity);
         await _manager.SaveAsync();

@@ -1,4 +1,6 @@
 using Entities.DataTransferObjects;
+using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
@@ -17,16 +19,23 @@ public class CategoriesController : ControllerBase
         _manager = manager;
     }
 
+    [Authorize]
     [HttpHead]
     [HttpGet(Name = "GetAllCategoriesAsync")]
-    public async Task<IActionResult> GetAllCategoriesAsync()
+    public async Task<IActionResult> GetAllCategoriesAsync(
+        [FromQuery] CategoryParameters categoryParameters
+    )
     {
-        var categories = await _manager.CategoryService.GetAllCategoriesAsync(false);
+        var categories = await _manager.CategoryService.GetAllCategoriesAsync(
+            categoryParameters,
+            false
+        );
 
         return Ok(categories);
     }
 
-    [HttpHead]
+    [Authorize]
+    [HttpHead("{id:int}")]
     [HttpGet("{id:int}", Name = "GetOneCategoryAsync")]
     public async Task<IActionResult> GetOneCategoryAsync([FromRoute(Name = "id")] int id)
     {
@@ -36,6 +45,7 @@ public class CategoriesController : ControllerBase
     }
 
     [ServiceFilter(typeof(ValidationFilterAttribute))]
+    [Authorize(Roles = "Admin, Editor")]
     [HttpPost(Name = "CreateOneCategory")]
     public async Task<IActionResult> CreateOneCategoryAsync(
         [FromBody] CategoryDtoForInsertion categoryDto
@@ -47,23 +57,33 @@ public class CategoriesController : ControllerBase
     }
 
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    [HttpPut("{id:int}")]
+    [Authorize(Roles = "Admin, Editor")]
+    [HttpPut("{id:int}", Name = "UpdateOneCategory")]
     public async Task<IActionResult> UpdateOneCategory(
         [FromRoute(Name = "id")] int id,
         [FromBody] CategoryDtoForUpdate categoryDto
     )
     {
-        if (id != categoryDto.CategoryId)
+        if (id != categoryDto.Id)
             return BadRequest();
 
         await _manager.CategoryService.UpdateOneCategoryAsync(id, categoryDto, false);
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}", Name = "DeleteOneCategoryAsync")]
     public async Task<IActionResult> DeleteOneCategoryAsync([FromRoute(Name = "id")] int id)
     {
         await _manager.CategoryService.DeleteOneCategoryAsync(id, true);
         return NoContent();
+    }
+
+    [Authorize]
+    [HttpOptions]
+    public IActionResult GetCategoryOptions()
+    {
+        Response.Headers.Add("Allow", "GET, PUT, POST,DELETE, OPTIONS, HEAD");
+        return Ok();
     }
 }
