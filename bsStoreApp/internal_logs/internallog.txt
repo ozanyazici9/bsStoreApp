@@ -429,3 +429,14 @@
 2026-08-24 16:30:46.5433 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
 2026-08-24 16:30:46.5706 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
 2026-08-24 16:31:00.1004 Info AppDomain Shutting down. LogFactory closing...
+2026-08-24 16:36:28.3512 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-24 16:36:28.3656 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-24 16:36:28.3889 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-24 16:47:35.6392 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-24 16:47:35.6507 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-24 16:47:35.6717 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config
+2026-08-24 16:55:22.4273 Info AppDomain Shutting down. LogFactory closing...
+2026-08-24 16:55:22.4273 Info LogFactory has been disposed.
+2026-08-24 16:55:40.4583 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2026-08-24 16:55:40.4583 Info NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 6.1.4.5569. Product version: 6.1.4+a342b92bf5382f108133296098348691f2f29fb1. GlobalAssemblyCache: False
+2026-08-24 16:55:40.4968 Info Configuration initialized: TargetNames=logfile, ConfigItems=16, AutoReload=true, FilePath=C:\Users\ozany\Desktop\Projeler\bsStoreApp\bsStoreApp\nlog.config

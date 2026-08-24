@@ -67,13 +67,20 @@ builder.Services.AddOpenApi(options =>
     options.AddDocumentTransformer(
         (document, context, cancellationToken) =>
         {
-            document.Components ??= new();
+            document.Components ??= new OpenApiComponents();
+
+            if (document.Components.SecuritySchemes is null)
+            {
+                document.Components.SecuritySchemes =
+                    new Dictionary<string, IOpenApiSecurityScheme>();
+            }
 
             document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.Http,
                 Scheme = "bearer",
                 BearerFormat = "JWT",
+                In = ParameterLocation.Header,
             };
 
             return Task.CompletedTask;
