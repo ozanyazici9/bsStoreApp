@@ -3,6 +3,7 @@ using bsStoreApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 using Services.Contracts;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,13 +77,15 @@ if (app.Environment.IsDevelopment())
         s.SwaggerEndpoint("/swagger/v1/swagger.json", "BTK Akademi v1");
         s.SwaggerEndpoint("/swagger/v2/swagger.json", "BTK Akademi v2");
     });
-    app.MapOpenApi();
 }
 
 if (app.Environment.IsProduction())
 {
     app.UseHsts();
 }
+
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 app.UseIpRateLimiting();

@@ -9,5 +9,7 @@ public interface IServiceManager
 {
     IBookServices BookService { get; }
 
+    ICategoryService CategoryService { get; }
+
     IAuthenticationService AuthenticationService { get; }
 }

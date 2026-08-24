@@ -12,6 +12,7 @@ public class RepositoryContext : IdentityDbContext<User>
         : base(options) { }
 
     public DbSet<Book> Books { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

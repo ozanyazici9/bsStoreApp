@@ -12,7 +12,7 @@ using Repositories.EFCore;
 namespace bsStoreApp.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20260809143553_InitialCreate")]
+    [Migration("20260821153608_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -65,6 +65,41 @@ namespace bsStoreApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Fiction"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Non-Fiction"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Self-Help"
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -112,6 +147,12 @@ namespace bsStoreApp.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

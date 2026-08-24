@@ -12,8 +12,8 @@ using Repositories.EFCore;
 namespace bsStoreApp.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20260811141720_AddRefreshTokenFields")]
-    partial class AddRefreshTokenFields
+    [Migration("20260823180042_RenameCategoryIdToId")]
+    partial class RenameCategoryIdToId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,41 @@ namespace bsStoreApp.Migrations
                             Id = 3,
                             Price = 799m,
                             Title = "The Silmarillion"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryName = "Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryName = "Non-Fiction"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryName = "Self-Help"
                         });
                 });
 
