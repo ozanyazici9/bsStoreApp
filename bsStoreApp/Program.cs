@@ -1,9 +1,10 @@
 using AspNetCoreRateLimit;
 using bsStoreApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi;
 using NLog;
-using Services.Contracts;
 using Scalar.AspNetCore;
+using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +62,24 @@ builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.ConfigureSwagger();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer(
+        (document, context, cancellationToken) =>
+        {
+            document.Components ??= new();
+
+            document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+            };
+
+            return Task.CompletedTask;
+        }
+    );
+});
 
 var app = builder.Build();
 
