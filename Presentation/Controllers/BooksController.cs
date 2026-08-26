@@ -1,12 +1,12 @@
 using System.Text.Json;
 using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ActionFilters;
 using Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Presentation.Controllers;
 
@@ -40,6 +40,17 @@ public class BooksController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("details")]
+    public async Task<IActionResult> GetAllBooksWithDetailsAsync()
+    {
+        var categoriesWithDetails = await _manager.BookService.GetAllBooksWithDetailsAsync(
+            trackChanges : false
+        );
+
+        return Ok(categoriesWithDetails);
+    }
+
+    [Authorize]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetOneBookAsync([FromRoute(Name = "id")] int id)
     {
@@ -61,7 +72,6 @@ public class BooksController : ControllerBase
     /// Bir metodun/sınıfın üzerine attribute yazdığında, bu bilgi derleme zamanında metadata olarak assembly'ye gömülüyor. ASP.NET Core, uygulama başlarken (startup'ta) Controller'ları ve Action'ları tararken bu metadata'yı System.Reflection API'si üzerinden okuyor (GetCustomAttributes() gibi metodlarla). Yani "bu action'ın üzerinde hangi filter'lar var" bilgisini framework, reflection ile keşfediyor. Bu keşif işlemi genelde cache'leniyor (her request'te tekrar tekrar yapılmıyor), performans kaybı yaşanmasın diye.
     /// Bu ServiceFilterlar AOP (Aspect Oriented Programming) tekniklerinden biri.
     /// </summary>
-    
     [Authorize(Roles = "Admin, Editor")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     [HttpPut("{id:int}")]
@@ -76,7 +86,7 @@ public class BooksController : ControllerBase
         await _manager.BookService.UpdateOneBookAsync(id, bookDto, trackChanges: false);
         return NoContent();
     }
- 
+
     [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteAllBooksAsync([FromRoute(Name = "id")] int id)

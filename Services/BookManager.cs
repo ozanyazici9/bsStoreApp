@@ -54,10 +54,15 @@ public class BookManager : IBookServices
         return (books: shapedBooks, metaData: booksWithMetaData.MetaData);
     }
 
-    public Task<List<Book>> GetAllBooksAsync(bool trackChanges)
+    public async Task<List<Book>> GetAllBooksAsync(bool trackChanges)
     {
-        var books = _manager.Book.GetAllBooksAsync(trackChanges);
+        var books = await _manager.Book.GetAllBooksAsync(trackChanges);
         return books;
+    }
+
+    public async Task<IEnumerable<Book>> GetAllBooksWithDetailsAsync(bool trackChanges)
+    {
+        return await _manager.Book.GetAllBooksWithDetailsAsync(trackChanges);
     }
 
     public async Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges)
