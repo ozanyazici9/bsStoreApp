@@ -11,19 +11,23 @@ namespace Services;
 
 public class BookManager : IBookServices
 {
+    private readonly ICategoryService _categoryService;
     private readonly IRepositoryManager _manager;
     private readonly IMapper _mapper;
     private readonly IDataShaper<BookDto> _shapper;
 
-    public BookManager(IRepositoryManager manager, IMapper mapper, IDataShaper<BookDto> shapper)
+    public BookManager(IRepositoryManager manager, IMapper mapper, IDataShaper<BookDto> shapper, ICategoryService categoryService)
     {
         _manager = manager;
         _mapper = mapper;
         _shapper = shapper;
+        _categoryService = categoryService;
     }
 
     public async Task<BookDto> CreateOneBookAsync(BookDtoForInsertion bookDto)
     {
+        var category = await _categoryService.GetOneCategoryByIdAsync(bookDto.CategoryId, false);
+
         var entity = _mapper.Map<Book>(bookDto);
         _manager.Book.CreateOneBook(entity);
         await _manager.SaveAsync();

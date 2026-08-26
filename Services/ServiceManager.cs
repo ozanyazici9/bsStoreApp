@@ -23,14 +23,14 @@ public class ServiceManager : IServiceManager
         UserManager<User> userManager
     )
     {
-        _bookService = new Lazy<IBookServices>(() =>
-            new BookManager(repositoryManager, mapper, shapper)
-        );
-
+        // IOC ye çek
         _categoryService = new Lazy<ICategoryService>(() =>
             new CategoryManager(repositoryManager, mapper)
         );
 
+        _bookService = new Lazy<IBookServices>(() =>
+            new BookManager(repositoryManager, mapper, shapper, _categoryService.Value)
+        );
 
         _authenticationService = new Lazy<IAuthenticationService>(() =>
             new AuthenticationManager(logger, mapper, userManager, configuration)
