@@ -12,18 +12,21 @@ public class BookConfig : IEntityTypeConfiguration<Book>
             new Book
             {
                 Id = 1,
+                CategoryId = 1,
                 Title = "The Lord of the Rings",
                 Price = 999,
             },
             new Book
             {
                 Id = 2,
+                CategoryId = 2,
                 Title = "The Hobbit",
                 Price = 899,
             },
             new Book
             {
                 Id = 3,
+                CategoryId = 1,
                 Title = "The Silmarillion",
                 Price = 799,
             }

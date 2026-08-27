@@ -11,19 +11,23 @@ namespace Services;
 
 public class BookManager : IBookServices
 {
+    private readonly ICategoryService _categoryService;
     private readonly IRepositoryManager _manager;
     private readonly IMapper _mapper;
     private readonly IDataShaper<BookDto> _shapper;
 
-    public BookManager(IRepositoryManager manager, IMapper mapper, IDataShaper<BookDto> shapper)
+    public BookManager(IRepositoryManager manager, IMapper mapper, IDataShaper<BookDto> shapper, ICategoryService categoryService)
     {
         _manager = manager;
         _mapper = mapper;
         _shapper = shapper;
+        _categoryService = categoryService;
     }
 
     public async Task<BookDto> CreateOneBookAsync(BookDtoForInsertion bookDto)
     {
+        var category = await _categoryService.GetOneCategoryByIdAsync(bookDto.CategoryId, false);
+
         var entity = _mapper.Map<Book>(bookDto);
         _manager.Book.CreateOneBook(entity);
         await _manager.SaveAsync();
@@ -54,10 +58,15 @@ public class BookManager : IBookServices
         return (books: shapedBooks, metaData: booksWithMetaData.MetaData);
     }
 
-    public Task<List<Book>> GetAllBooksAsync(bool trackChanges)
+    public async Task<List<Book>> GetAllBooksAsync(bool trackChanges)
     {
-        var books = _manager.Book.GetAllBooksAsync(trackChanges);
+        var books = await _manager.Book.GetAllBooksAsync(trackChanges);
         return books;
+    }
+
+    public async Task<IEnumerable<Book>> GetAllBooksWithDetailsAsync(bool trackChanges)
+    {
+        return await _manager.Book.GetAllBooksWithDetailsAsync(trackChanges);
     }
 
     public async Task<BookDto> GetOneBookByIdAsync(int id, bool trackChanges)
