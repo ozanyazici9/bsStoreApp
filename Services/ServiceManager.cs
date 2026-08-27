@@ -1,45 +1,23 @@
-using AutoMapper;
-using Entities.DataTransferObjects;
-using Entities.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Repositories.Contracts;
 using Services.Contracts;
 
 namespace Services;
 
 public class ServiceManager : IServiceManager
 {
-    private readonly Lazy<IBookServices> _bookService;
-    private readonly Lazy<IAuthenticationService> _authenticationService;
-    private readonly Lazy<ICategoryService> _categoryService;
+    private readonly IBookServices _bookService;
+    private readonly IAuthenticationService _authenticationService;
+    private readonly ICategoryService _categoryService;
 
-    public ServiceManager(
-        IRepositoryManager repositoryManager,
-        IMapper mapper,
-        IDataShaper<BookDto> shapper,
-        ILoggerService logger,
-        IConfiguration configuration,
-        UserManager<User> userManager
-    )
+    public ServiceManager(IBookServices bookService, IAuthenticationService authenticationService, ICategoryService categoryService)
     {
-        // IOC ye çek
-        _categoryService = new Lazy<ICategoryService>(() =>
-            new CategoryManager(repositoryManager, mapper)
-        );
-
-        _bookService = new Lazy<IBookServices>(() =>
-            new BookManager(repositoryManager, mapper, shapper, _categoryService.Value)
-        );
-
-        _authenticationService = new Lazy<IAuthenticationService>(() =>
-            new AuthenticationManager(logger, mapper, userManager, configuration)
-        );
+        _bookService = bookService;
+        _authenticationService = authenticationService;
+        _categoryService = categoryService;
     }
 
-    public IBookServices BookService => _bookService.Value;
+    public IBookServices BookService => _bookService;
 
-    public ICategoryService CategoryService => _categoryService.Value;
+    public ICategoryService CategoryService => _categoryService;
 
-    public IAuthenticationService AuthenticationService => _authenticationService.Value;
+    public IAuthenticationService AuthenticationService => _authenticationService;
 }

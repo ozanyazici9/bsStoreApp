@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Presentation.ActionFilters;
 using Presentation.Controllers;
+using Repositories;
 using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
@@ -182,13 +183,13 @@ public static class ServicesExtensions
                     Title = "BTK Akademi",
                     Version = "v1",
                     Description = "BTK Akademi ASP.NET Core API",
-                    TermsOfService =new Uri("https://www.btkakademi.gov.tr/"),
+                    TermsOfService = new Uri("https://www.btkakademi.gov.tr/"),
                     Contact = new OpenApiContact
                     {
                         Name = "Ozan Yazıcı",
                         Email = "ozanyazici9@gmail.com",
-                        Url = new Uri("https://www.ozanyazici.com.tr/")
-                    }
+                        Url = new Uri("https://www.ozanyazici.com.tr/"),
+                    },
                 }
             );
             s.SwaggerDoc("v2", new OpenApiInfo { Title = "BTK Akademi", Version = "v2" });
@@ -211,5 +212,18 @@ public static class ServicesExtensions
                 [new OpenApiSecuritySchemeReference("Bearer", document)] = [],
             });
         });
+    }
+
+    public static void RegisterRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+    }
+
+    public static void RegisterServices(this IServiceCollection services)
+    {
+        services.AddScoped<IBookServices, BookManager>();
+        services.AddScoped<ICategoryService, CategoryManager>();
+        services.AddScoped<IAuthenticationService, AuthenticationManager>();
     }
 }
